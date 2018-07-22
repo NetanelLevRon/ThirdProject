@@ -1,0 +1,6 @@
+C:\Users\USER\Desktop\studies\projects\SearchProj\BOL\bin\Debug\BOL.dll
+C:\Users\USER\Desktop\studies\projects\SearchProj\BOL\bin\Debug\BOL.pdb
+C:\Users\USER\Desktop\studies\projects\SearchProj\BOL\obj\Debug\BOL.csprojAssemblyReference.cache
+C:\Users\USER\Desktop\studies\projects\SearchProj\BOL\obj\Debug\BOL.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\studies\projects\SearchProj\BOL\obj\Debug\BOL.dll
+C:\Users\USER\Desktop\studies\projects\SearchProj\BOL\obj\Debug\BOL.pdb

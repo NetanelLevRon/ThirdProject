@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SearchProjModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Result">
+    <Key>
+      <PropertyRef Name="ResultID" />
+    </Key>
+    <Property Name="ResultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ResultPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SearchID" Type="Int32" />
+    <NavigationProperty Name="Search" Relationship="Self.FK_Results_Searches" FromRole="Results" ToRole="Searches" />
+  </EntityType>
+  <EntityType Name="Search">
+    <Key>
+      <PropertyRef Name="SearchID" />
+    </Key>
+    <Property Name="SearchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SearchPattern" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SearchDirectory" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Results" Relationship="Self.FK_Results_Searches" FromRole="Searches" ToRole="Results" />
+  </EntityType>
+  <Association Name="FK_Results_Searches">
+    <End Role="Searches" Type="Self.Search" Multiplicity="0..1" />
+    <End Role="Results" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Searches">
+        <PropertyRef Name="SearchID" />
+      </Principal>
+      <Dependent Role="Results">
+        <PropertyRef Name="SearchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SearchProjEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Results" EntityType="Self.Result" />
+    <EntitySet Name="Searches" EntityType="Self.Search" />
+    <AssociationSet Name="FK_Results_Searches" Association="Self.FK_Results_Searches">
+      <End Role="Searches" EntitySet="Searches" />
+      <End Role="Results" EntitySet="Results" />
+    </AssociationSet>
+    <FunctionImport Name="InsertResult">
+      <Parameter Name="resultPath" Mode="In" Type="String" />
+      <Parameter Name="SearchID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertSearch">
+      <Parameter Name="searchPattern" Mode="In" Type="String" />
+      <Parameter Name="SearchDirectory" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SearchProjModelStoreContainer" CdmEntityContainer="SearchProjEntities">
+    <EntitySetMapping Name="Results">
+      <EntityTypeMapping TypeName="SearchProjModel.Result">
+        <MappingFragment StoreEntitySet="Results">
+          <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+          <ScalarProperty Name="ResultPath" ColumnName="ResultPath" />
+          <ScalarProperty Name="SearchID" ColumnName="SearchID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Searches">
+      <EntityTypeMapping TypeName="SearchProjModel.Search">
+        <MappingFragment StoreEntitySet="Searches">
+          <ScalarProperty Name="SearchID" ColumnName="SearchID" />
+          <ScalarProperty Name="SearchPattern" ColumnName="SearchPattern" />
+          <ScalarProperty Name="SearchDirectory" ColumnName="SearchDirectory" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="InsertResult" FunctionName="SearchProjModel.Store.InsertResult" />
+    <FunctionImportMapping FunctionImportName="InsertSearch" FunctionName="SearchProjModel.Store.InsertSearch" />
+  </EntityContainerMapping>
+</Mapping>

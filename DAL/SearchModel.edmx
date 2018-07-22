@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SearchProjModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Results">
+          <Key>
+            <PropertyRef Name="ResultID" />
+          </Key>
+          <Property Name="ResultID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResultPath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SearchID" Type="int" />
+        </EntityType>
+        <EntityType Name="Searches">
+          <Key>
+            <PropertyRef Name="SearchID" />
+          </Key>
+          <Property Name="SearchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SearchPattern" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SearchDirectory" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Results_Searches">
+          <End Role="Searches" Type="Self.Searches" Multiplicity="0..1" />
+          <End Role="Results" Type="Self.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Searches">
+              <PropertyRef Name="SearchID" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="SearchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="InsertResult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="resultPath" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="SearchID" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="InsertSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="searchPattern" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="SearchDirectory" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="SearchProjModelStoreContainer">
+          <EntitySet Name="Results" EntityType="Self.Results" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Searches" EntityType="Self.Searches" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Results_Searches" Association="Self.FK_Results_Searches">
+            <End Role="Searches" EntitySet="Searches" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SearchProjModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Result">
+          <Key>
+            <PropertyRef Name="ResultID" />
+          </Key>
+          <Property Name="ResultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResultPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SearchID" Type="Int32" />
+          <NavigationProperty Name="Search" Relationship="Self.FK_Results_Searches" FromRole="Results" ToRole="Searches" />
+        </EntityType>
+        <EntityType Name="Search">
+          <Key>
+            <PropertyRef Name="SearchID" />
+          </Key>
+          <Property Name="SearchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SearchPattern" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SearchDirectory" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Results" Relationship="Self.FK_Results_Searches" FromRole="Searches" ToRole="Results" />
+        </EntityType>
+        <Association Name="FK_Results_Searches">
+          <End Role="Searches" Type="Self.Search" Multiplicity="0..1" />
+          <End Role="Results" Type="Self.Result" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Searches">
+              <PropertyRef Name="SearchID" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="SearchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SearchProjEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Results" EntityType="Self.Result" />
+          <EntitySet Name="Searches" EntityType="Self.Search" />
+          <AssociationSet Name="FK_Results_Searches" Association="Self.FK_Results_Searches">
+            <End Role="Searches" EntitySet="Searches" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+          <FunctionImport Name="InsertResult">
+            <Parameter Name="resultPath" Mode="In" Type="String" />
+            <Parameter Name="SearchID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertSearch">
+            <Parameter Name="searchPattern" Mode="In" Type="String" />
+            <Parameter Name="SearchDirectory" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SearchProjModelStoreContainer" CdmEntityContainer="SearchProjEntities">
+          <EntitySetMapping Name="Results">
+            <EntityTypeMapping TypeName="SearchProjModel.Result">
+              <MappingFragment StoreEntitySet="Results">
+                <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+                <ScalarProperty Name="ResultPath" ColumnName="ResultPath" />
+                <ScalarProperty Name="SearchID" ColumnName="SearchID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Searches">
+            <EntityTypeMapping TypeName="SearchProjModel.Search">
+              <MappingFragment StoreEntitySet="Searches">
+                <ScalarProperty Name="SearchID" ColumnName="SearchID" />
+                <ScalarProperty Name="SearchPattern" ColumnName="SearchPattern" />
+                <ScalarProperty Name="SearchDirectory" ColumnName="SearchDirectory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InsertResult" FunctionName="SearchProjModel.Store.InsertResult" />
+          <FunctionImportMapping FunctionImportName="InsertSearch" FunctionName="SearchProjModel.Store.InsertSearch" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

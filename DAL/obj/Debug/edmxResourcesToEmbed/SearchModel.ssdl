@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SearchProjModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Results">
+    <Key>
+      <PropertyRef Name="ResultID" />
+    </Key>
+    <Property Name="ResultID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ResultPath" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SearchID" Type="int" />
+  </EntityType>
+  <EntityType Name="Searches">
+    <Key>
+      <PropertyRef Name="SearchID" />
+    </Key>
+    <Property Name="SearchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SearchPattern" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SearchDirectory" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_Results_Searches">
+    <End Role="Searches" Type="Self.Searches" Multiplicity="0..1" />
+    <End Role="Results" Type="Self.Results" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Searches">
+        <PropertyRef Name="SearchID" />
+      </Principal>
+      <Dependent Role="Results">
+        <PropertyRef Name="SearchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="InsertResult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="resultPath" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="SearchID" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="InsertSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="searchPattern" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="SearchDirectory" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <EntityContainer Name="SearchProjModelStoreContainer">
+    <EntitySet Name="Results" EntityType="Self.Results" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Searches" EntityType="Self.Searches" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Results_Searches" Association="Self.FK_Results_Searches">
+      <End Role="Searches" EntitySet="Searches" />
+      <End Role="Results" EntitySet="Results" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
