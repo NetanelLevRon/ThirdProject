@@ -4,7 +4,10 @@ namespace BLL
 {
     public class SearchManager
     {
-        public static int InsertSearch(Search newSearch) // befor searching. get the name of the search input and the parent directory if exsist
+        /// <summary>
+        /// befor searching. get the name of the search input and the parent directory if exsist
+        /// <summary>
+        public static int InsertSearch(Search newSearch) 
         {
             using (SearchProjEntities ef = new SearchProjEntities())
             {
@@ -19,7 +22,11 @@ namespace BLL
                 return srcObj.SearchID;
             }
         }
-        public static void InsertResult(Result newResult) // after. when the search is done. 
+        /// <summary>
+        /// gets the result after the search is done,
+        /// and insert it to the DB.
+        /// <summary>
+        public static void InsertResult(Result newResult)  
         {
             using (SearchProjEntities ef = new SearchProjEntities())
             {
@@ -29,8 +36,6 @@ namespace BLL
                     ResultPath = newResult.ResultPath
                 });
                 ef.SaveChanges();
-
-
             }
         }
     }
