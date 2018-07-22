@@ -44,14 +44,14 @@ namespace BLL
                 switch (temp[0])
                 {
                     case "1": Console.Write("Enter file name: "); temp[1] = Console.ReadLine();
-                        if(temp[1] == "")
+
                          temp[1] = CorrectInput(temp[1]);
 
                           SearchObj = new Search() { SearchPattern = temp[1] }; // insert into 'SearchObj' the Pattern input
                         break; 
                     case "2":
                         Console.Write("Enter file name: "); temp[1] = Console.ReadLine();
-                        if (temp[1] == "")
+
                             temp[1] = CorrectInput(temp[1]);
 
                         Console.Write("Enter diractory to search in: ");
@@ -91,6 +91,7 @@ namespace BLL
             return str;
         }
 
+
         /// <summary>
         /// searching for files in the current computer.
         /// get the name or part of name, of the diractive to search for
@@ -113,13 +114,13 @@ namespace BLL
                         }
                         else
                         {
-                            dirPath = @"c:\"; // if choose option 1
+                            dirPath = @"c:\"; // if choose option 1, start the search in 'c'.
                         }
 
                         //for root directory
                         foreach (string f in Directory.GetFiles(dirPath))
                         {
-                            string fn = Path.GetFileName(f);
+                            string fn = Path.GetFileName(f); // onley if files contains the name.
                             if (fn.ToLower().Contains(lFile[1].ToString().ToLower()))
                             {
                                 fileList.Add(f);
@@ -134,7 +135,7 @@ namespace BLL
                             {
                                 foreach (string f in Directory.GetFiles(dr))
                                 {
-                                    string fn = Path.GetFileName(f);
+                                    string fn = Path.GetFileName(f); // onley if files contains the name.
                                     if (fn.ToLower().Contains(lFile[1].ToString().ToLower()))
                                     {
                                         fileList.Add(f); // to list, for DB.
@@ -144,8 +145,9 @@ namespace BLL
                                 foreach (string directory in Directory.GetDirectories(dr))
                                 {
                                     string[] tmp = lFile;
-                                    tmp[2] = directory;
-                                    DirSearch(tmp); // recursion. call itself untill the search is done.
+                                    tmp[2] = directory; // the new directory name.
+                                    DirSearch(tmp);  // recursion. call itself until the search is done with the new dir name.
+
                                 }
                             }
                             catch (Exception ex)

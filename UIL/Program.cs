@@ -21,7 +21,9 @@ namespace UIL
                 FileManager.AddResult(start);
 
                 FileManager.fileList.Clear();
+                
                 Console.Write("press any key to clear and continue");
+
                 Console.ReadLine();
                 Console.Clear();
 
